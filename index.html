@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinStat Risk™ Enterprise - Digital Lending Intelligence Platform</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Leaflet.js CDN (Peta Asli Indonesia) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+    <div class="app-layout">
+        
+        <!-- ====================================================
+             SIDEBAR NAVIGASI BARU: PROFIL DI BAWAH (SULTAN LEVEL)
+             ==================================================== -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                
+                <!-- BRAND EMBLEM & TITLE DI ATAS (BERSIH & GAGAH) -->
+                <div class="sidebar-brand">
+                    <div class="brand-crest">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-info">
+                        <h2>FinStat Risk™</h2>
+                        <div class="brand-meta">
+                            <span class="version-tag">OJK Engine v2.4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION BUTTONS (MENU UTAMA) -->
+                <nav class="sidebar-menu">
+                    <span class="menu-heading">MODUL SISTEM FINANSIAL</span>
+                    
+                    <button class="nav-item active nav-dash" onclick="switchTab('dashboard')">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="9"></rect>
+                            <rect x="14" y="3" width="7" height="5"></rect>
+                            <rect x="14" y="12" width="7" height="9"></rect>
+                            <rect x="3" y="16" width="7" height="5"></rect>
+                        </svg>
+                        <span>Executive Dashboard</span>
+                    </button>
+                    
+                    <button class="nav-item nav-check" onclick="switchTab('checker')">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        <span>Credit Underwriter</span>
+                    </button>
+                    
+                    <button class="nav-item nav-data" onclick="switchTab('database')">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                        <span>Portfolio Database</span>
+                    </button>
+                    
+                    <button class="nav-item nav-arch" onclick="switchTab('architecture')">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <span>Model Governance</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- ====================================================
+                 BAGIAN BAWAH SIDEBAR: STATUS OJK & NAMA M. NAUFAL ZAMANI
+                 ==================================================== -->
+            <div class="sidebar-footer-wrap">
+                
+                <!-- STATUS OJK RAMPING & MENYATU -->
+                <div class="sidebar-status-pill">
+                    <div class="status-pill-left">
+                        <span class="pulse-dot"></span>
+                        <b>OJK Live Engine</b>
+                    </div>
+                    <span class="status-pill-right">TWP90 &lt; 5.0%</span>
+                </div>
+
+                <!-- ANALYST OFFICIAL CARD (M. NAUFAL ZAMANI DI PALING BAWAH) -->
+                <div class="analyst-card-bottom">
+                    <div class="analyst-avatar">
+                        <span>NZ</span>
+                        <div class="online-indicator" title="Sistem Aktif & Terhubung"></div>
+                    </div>
+                    <div class="analyst-details">
+                        <div class="analyst-name-wrap">
+                            <h4>M. Naufal Zamani</h4>
+                            <span class="verified-icon" title="Certified Risk Analyst">✓</span>
+                        </div>
+                        <span class="role-badge">Lead Credit Risk Analyst</span>
+                        <a href="https://www.instagram.com/rebatur_data/?__pwa=1#" target="_blank" rel="noopener noreferrer" class="ig-link">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                            <span>@rebatur_data</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- ====================================================
+             AREA KONTEN UTAMA (TIDAK BERUBAH SAMA SEKALI)
+             ==================================================== -->
+        <main class="main-content">
+            
+            <!-- TOPBAR HEADER -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="breadcrumb">
+                        <span>FinStat Enterprise</span>
+                        <span class="slash">/</span>
+                        <span>Risk Intelligence</span>
+                        <span class="slash">/</span>
+                        <span class="current" id="crumb-current">Executive Overview</span>
+                    </div>
+                    <h1 id="page-title">Executive Risk Intelligence &amp; Geographic Overview</h1>
+                    <p id="page-subtitle">Sistem Pemantauan Risiko Portofolio Pinjaman &amp; Mitigasi Gagal Bayar (TWP90)</p>
+                </div>
+                <div class="topbar-right">
+                    <div class="ojk-badge">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <span>OJK Standard Benchmark</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====================================================
+                 TAB 1: EXECUTIVE DASHBOARD
+                 ==================================================== -->
+            <section id="tab-dashboard" class="tab-pane active">
+                
+                <!-- EXECUTIVE STRATEGIC BRIEFING -->
+                <div class="guide-banner">
+                    <div class="guide-icon-badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="guide-text">
+                        <h4>Ringkasan Strategis Manajemen Risiko &amp; Solvabilitas Portofolio</h4>
+                        <p>Dasbor intelijen ini membedah kesehatan kredit dari <b>31.834 debitur aktif</b> di seluruh Indonesia. Melalui pemodelan probabilitas regresi logistik multivariat, sistem menetapkan batas kelaikan kredit guna memangkas rasio wanprestasi 90 hari (TWP90) hingga ke zona aman regulator.</p>
+                    </div>
+                </div>
+
+                <!-- 5 KARTU KPI SEJAJAR -->
+                <div class="kpi-deck-five">
+                    
+                    <div class="kpi-card-ref">
+                        <div class="kpi-icon-circle blue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <div class="kpi-body">
+                            <span class="kpi-label-ref">Total Populasi Debitur</span>
+                            <span class="kpi-val-ref" id="kpi-total">31,834</span>
+                            <span class="kpi-sub-ref">Sampel Riil Terverifikasi</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-ref">
+                        <div class="kpi-icon-circle red">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        </div>
+                        <div class="kpi-body">
+                            <span class="kpi-label-ref">Aktual TWP90 Lapangan</span>
+                            <span class="kpi-val-ref text-red" id="kpi-twp">21.82%</span>
+                            <span class="kpi-sub-ref">Batas Toleransi OJK: &lt; 5.0%</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-ref">
+                        <div class="kpi-icon-circle green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <div class="kpi-body">
+                            <span class="kpi-label-ref">Approval Rate Portofolio</span>
+                            <span class="kpi-val-ref text-green" id="kpi-approval">43.57%</span>
+                            <span class="kpi-sub-ref">Lolos Skrining Kelaikan</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-ref">
+                        <div class="kpi-icon-circle indigo">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polygon points="12 6 12 12 16 14"></polygon></svg>
+                        </div>
+                        <div class="kpi-body">
+                            <span class="kpi-label-ref">Akurasi Model (AUC-ROC)</span>
+                            <span class="kpi-val-ref text-indigo" id="kpi-auc">0.8449</span>
+                            <span class="kpi-sub-ref">Daya Pemisah: 84.5%</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card-ref">
+                        <div class="kpi-icon-circle purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </div>
+                        <div class="kpi-body">
+                            <span class="kpi-label-ref">Separasi Risiko (KS-Stat)</span>
+                            <span class="kpi-val-ref text-purple" id="kpi-ks">53.16%</span>
+                            <span class="kpi-sub-ref">Standar Tier-1 Banking</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PETA INDONESIA + LEADERBOARD RANKING -->
+                <div class="map-ranking-row">
+                    
+                    <div class="card-map-wrapper">
+                        <div class="map-card-header">
+                            <div>
+                                <h3>Peta Sebaran Konsentrasi Risiko FinTech Indonesia</h3>
+                                <p>Peta interaktif: klik marker pulau untuk melihat profil risiko wilayah spesifik</p>
+                            </div>
+
+                            <div class="map-radio-selectors">
+                                <label class="radio-item">
+                                    <input type="radio" name="mapMetric" value="twp90" checked onchange="updateMapMetric('twp90')">
+                                    <span>Tingkat TWP90 Macet (%)</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="mapMetric" value="plafon" onchange="updateMapMetric('plafon')">
+                                    <span>Penyaluran Plafon (Rp)</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="mapMetric" value="debitur" onchange="updateMapMetric('debitur')">
+                                    <span>Volume Debitur</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="leaflet-map-frame">
+                            <div id="indonesiaLeafletMap" style="height: 380px; width: 100%; border-radius: 8px; z-index: 1;"></div>
+                            
+                            <div class="map-legend-bar">
+                                <span>🟢 Rendah (&lt; 20% TWP90)</span>
+                                <div class="legend-gradient"></div>
+                                <span>🔴 Tinggi (&gt; 25% TWP90)</span>
+                            </div>
+                        </div>
+
+                        <div class="chart-explanation">
+                            <div class="exp-icon">🗺️</div>
+                            <div class="exp-text">
+                                <b>Wawasan Geografis OJK:</b> Wilayah <b>DKI Jakarta (19.8%)</b> mencatatkan rasio macet terendah berkat ekosistem riwayat kredit yang matang. Sebaliknya, wilayah <b>Sulawesi (25.6%) dan Papua (26.1%)</b> memiliki tingkat macet lebih tinggi akibat terbatasnya data historis SLIK, sehingga memerlukan pengetatan pagu limit pinjaman.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-ranking-wrapper">
+                        <div class="card-header">
+                            <div>
+                                <h3>Peringkat Risiko Wilayah FinTech</h3>
+                                <p>Urutan tingkat kredit macet per koridor ekonomi (Klik baris untuk menuju lokasi)</p>
+                            </div>
+                            <span class="tag-pill">Leaderboard OJK</span>
+                        </div>
+
+                        <div class="ranking-table-scroll">
+                            <table class="styled-ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Provinsi / Pulau</th>
+                                        <th>Plafon Tersalurkan</th>
+                                        <th>TWP90</th>
+                                        <th>Status OJK</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="rank-row" onclick="focusProvince('dki')">
+                                        <td class="rank-num">1</td>
+                                        <td><b>DKI Jakarta</b></td>
+                                        <td>Rp 450 Miliar</td>
+                                        <td><b class="text-green">19.8%</b></td>
+                                        <td><span class="status-pill green">Prima (Aman)</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('jatim')">
+                                        <td class="rank-num">2</td>
+                                        <td><b>Jawa Timur &amp; Bali</b></td>
+                                        <td>Rp 265 Miliar</td>
+                                        <td><b class="text-blue">20.9%</b></td>
+                                        <td><span class="status-pill blue">Terkendali</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('banten')">
+                                        <td class="rank-num">3</td>
+                                        <td><b>Banten</b></td>
+                                        <td>Rp 115 Miliar</td>
+                                        <td><b class="text-blue">21.1%</b></td>
+                                        <td><span class="status-pill blue">Terkendali</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('jateng')">
+                                        <td class="rank-num">4</td>
+                                        <td><b>Jawa Tengah &amp; DIY</b></td>
+                                        <td>Rp 180 Miliar</td>
+                                        <td><b class="text-amber">21.5%</b></td>
+                                        <td><span class="status-pill amber">Moderasi</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('jabar')">
+                                        <td class="rank-num">5</td>
+                                        <td><b>Jawa Barat</b></td>
+                                        <td>Rp 382 Miliar</td>
+                                        <td><b class="text-amber">22.4%</b></td>
+                                        <td><span class="status-pill amber">Moderasi</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('sumatera')">
+                                        <td class="rank-num">6</td>
+                                        <td><b>Pulau Sumatera</b></td>
+                                        <td>Rp 148 Miliar</td>
+                                        <td><b class="text-red">24.1%</b></td>
+                                        <td><span class="status-pill red">Waspada Macet</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('kalimantan')">
+                                        <td class="rank-num">7</td>
+                                        <td><b>Pulau Kalimantan (IKN)</b></td>
+                                        <td>Rp 95 Miliar</td>
+                                        <td><b class="text-red">24.8%</b></td>
+                                        <td><span class="status-pill red">Pengetatan Plafon</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('sulawesi')">
+                                        <td class="rank-num">8</td>
+                                        <td><b>Pulau Sulawesi</b></td>
+                                        <td>Rp 78 Miliar</td>
+                                        <td><b class="text-red">25.6%</b></td>
+                                        <td><span class="status-pill red">Verifikasi Ketat</span></td>
+                                    </tr>
+                                    <tr class="rank-row" onclick="focusProvince('papua')">
+                                        <td class="rank-num">9</td>
+                                        <td><b>Maluku &amp; Papua</b></td>
+                                        <td>Rp 45 Miliar</td>
+                                        <td><b class="text-red">26.1%</b></td>
+                                        <td><span class="status-pill red">Pagu Terbatas</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="chart-explanation" style="margin-top: 14px;">
+                            <div class="exp-icon">📋</div>
+                            <div class="exp-text">
+                                <b>Strategi Plafon Koridor:</b> Pulau Jawa menyerap lebih dari 75% total kredit, sedangkan wilayah Indonesia Timur (Sulawesi &amp; Papua) membutuhkan suku bunga yang disesuaikan dengan premi risiko wilayah.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 4 GRAFIK DITATA DUA-DUA (KIRI & KANAN) -->
+                <div class="charts-grid-two-by-two">
+                    
+                    <div class="card-chart">
+                        <div class="card-header">
+                            <div>
+                                <h3>Rasio Macet per Sektor Pinjaman</h3>
+                                <p>Sektor produktif UMKM vs konsumtif</p>
+                            </div>
+                            <span class="tag-pill">Sektoral</span>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="purposeChart"></canvas>
+                        </div>
+                        <div class="chart-explanation">
+                            <div class="exp-icon">💡</div>
+                            <div class="exp-text">
+                                <b>Analisis Komparasi Sektor Pembiayaan:</b>
+                                <br>• <b>Sektor Produktif UMKM (16.5% macet):</b> Memiliki perputaran kas riil dari penjualan harian, sehingga debitur memiliki komitmen pelunasan pinjaman yang paling disiplin.
+                                <br>• <b>Konsolidasi Hutang (26.5% macet):</b> Membawa risiko moral hazard tertinggi akibat fenomena gali lubang tutup lubang.
+                                <br>• <b>Rekomendasi Kebijakan:</b> Sesuai arahan OJK, alokasi pembiayaan untuk modal kerja UMKM wajib ditingkatkan minimal 40% dari total penyaluran dana.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-chart">
+                        <div class="card-header">
+                            <div>
+                                <h3>Alokasi Kebijakan Persetujuan</h3>
+                                <p>Segmentasi persetujuan otomatis vs manual</p>
+                            </div>
+                            <span class="tag-pill">Policy</span>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="decisionChart"></canvas>
+                        </div>
+                        <div class="chart-explanation">
+                            <div class="exp-icon">⚙️</div>
+                            <div class="exp-text">
+                                <b>Strategi Operasional &amp; Efisiensi Finansial:</b>
+                                <br>• <b>56.4% Auto-Reject:</b> Sistem otomatis menolak 17.964 debitur berisiko tinggi tanpa membebani biaya penelaahan manual, menyelamatkan potensi gagal bayar sebesar Rp 48,2 Miliar.
+                                <br>• <b>39.4% Manual Review:</b> Dialokasikan ke tim underwriter untuk pemeriksaan rekening koran dan verifikasi kontak darurat.
+                                <br>• <b>4.2% Auto-Approved:</b> Debitur prima yang memenuhi kriteria pencairan langsung dengan suku bunga terendah.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-chart">
+                        <div class="card-header">
+                            <div>
+                                <h3>Distribusi Skor Kredit FICO (300-850)</h3>
+                                <p>Sebaran kualitas kredit debitur</p>
+                            </div>
+                            <span class="tag-pill">Frekuensi</span>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="scoreChart"></canvas>
+                        </div>
+                        <div class="chart-explanation">
+                            <div class="exp-icon">📊</div>
+                            <div class="exp-text">
+                                <b>Evaluasi Kurva Kualitas Skor:</b>
+                                <br>• <b>Konsentrasi Subprime:</b> Sebanyak 68.5% calon debitur online berada di bawah skor 550, membuktikan platform FinTech didominasi peminjam yang tidak lolos standar bank konvensional.
+                                <br>• <b>Efektivitas Ambang Batas:</b> Pemotongan cut-off skor pada batas 580 berhasil memisahkan debitur bermasalah dengan tingkat ketajaman separasi (KS-Statistic) mencapai 53.16%.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-chart">
+                        <div class="card-header">
+                            <div>
+                                <h3>Kurva Beban Angsuran (DSR Hazard)</h3>
+                                <p>Beban hutang vs lonjakan wanprestasi</p>
+                            </div>
+                            <span class="tag-pill">Batas OJK</span>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="dsrChart"></canvas>
+                        </div>
+                        <div class="chart-explanation">
+                            <div class="exp-icon">⚠️</div>
+                            <div class="exp-text">
+                                <b>Titik Kritis Kapasitas Pembayaran:</b>
+                                <br>• <b>Zona Aman (&le; 20% DSR):</b> Rasio gagal bayar terkendali di bawah 13.5%. Debitur memiliki ruang sisa penghasilan yang memadai untuk kebutuhan hidup pokok.
+                                <br>• <b>Zona Bahaya (&gt; 30% DSR):</b> Terjadi lonjakan eksponensial di mana peluang macet melompat hingga 74.2% jika cicilan memakan lebih dari separuh penghasilan pemohon.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TABEL MATRIKS EKSEKUTIF -->
+                <div class="executive-summary-table-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Matriks Kebijakan Kredit Berdasarkan Klasifikasi Skor Risiko</h3>
+                            <p>Panduan komite risiko dalam menetapkan pagu limit, suku bunga, dan prosedur verifikasi operasional</p>
+                        </div>
+                        <span class="tag-pill">Risk Tier Matrix</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="styled-matrix">
+                            <thead>
+                                <tr>
+                                    <th>Tingkatan Risiko</th>
+                                    <th>Rentang Skor FICO</th>
+                                    <th>Proporsi Portofolio</th>
+                                    <th>Tingkat Macet Riil</th>
+                                    <th>Protokol Keputusan</th>
+                                    <th>Skema Bunga Anjuran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-green">
+                                    <td><b>Tier 1 - Super Prime</b></td>
+                                    <td>750 - 850</td>
+                                    <td>0.6% (177 nasabah)</td>
+                                    <td>&lt; 1.5%</td>
+                                    <td><span class="status-pill green">Pencairan Instan</span></td>
+                                    <td>Suku Bunga Preferensial (0.8% / bln)</td>
+                                </tr>
+                                <tr class="row-blue">
+                                    <td><b>Tier 2 - Prime</b></td>
+                                    <td>650 - 749</td>
+                                    <td>3.6% (1.150 nasabah)</td>
+                                    <td>3.2%</td>
+                                    <td><span class="status-pill blue">Disetujui Otomatis</span></td>
+                                    <td>Suku Bunga Standar (1.2% / bln)</td>
+                                </tr>
+                                <tr class="row-amber">
+                                    <td><b>Tier 3 - Moderate Risk</b></td>
+                                    <td>550 - 649</td>
+                                    <td>27.3% (8.703 nasabah)</td>
+                                    <td>14.8%</td>
+                                    <td><span class="status-pill amber">Penelaahan Manual</span></td>
+                                    <td>Suku Bunga Menengah + Limit Dibatasi</td>
+                                </tr>
+                                <tr class="row-red">
+                                    <td><b>Tier 4 - High Risk (Subprime)</b></td>
+                                    <td>300 - 549</td>
+                                    <td>68.5% (21.804 nasabah)</td>
+                                    <td>42.5%</td>
+                                    <td><span class="status-pill red">Penolakan Sistem</span></td>
+                                    <td>Tidak Memenuhi Syarat Pembiayaan</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ====================================================
+                 TAB 2: CREDIT UNDERWRITER CHECKER
+                 ==================================================== -->
+            <section id="tab-checker" class="tab-pane">
+                
+                <div class="guide-banner info">
+                    <div class="guide-icon-badge info">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <div class="guide-text">
+                        <h4>Protokol Underwriting &amp; Evaluasi Risiko Pemohon Baru</h4>
+                        <p>Modul operasional ini digunakan analis pembiayaan untuk memverifikasi profil peminjam baru secara manual maupun otomatis. Masukkan data di formulir kiri atau pilih salah satu tombol skenario cepat di atas untuk langsung menerbitkan <b>Sertifikat Kelaikan Pembiayaan</b> di sebelah kanan.</p>
+                    </div>
+                </div>
+
+                <div class="preset-bar">
+                    <span class="preset-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        <span>Skenario Simulasi Cepat (Klik untuk Mengisi Formulir Otomatis):</span>
+                    </span>
+                    <button class="btn-preset green" onclick="isiPreset('aman')">Kasus 1: Pengusaha UMKM Berkelanjutan (Kelaikan Tinggi)</button>
+                    <button class="btn-preset red" onclick="isiPreset('macet')">Kasus 2: Pembiayaan Konsumtif Beban Berlebih (Risiko Tinggi)</button>
+                    <button class="btn-preset reset" onclick="resetFormulir()">Bersihkan Form (Reset)</button>
+                </div>
+
+                <div class="checker-container">
+                    
+                    <div class="checker-card form-side">
+                        <div class="card-header">
+                            <div>
+                                <h3>Formulir Evaluasi Profil Calon Debitur</h3>
+                                <p>Silakan isi data profil keuangan pemohon di bawah ini</p>
+                            </div>
+                        </div>
+
+                        <div class="form-body">
+                            <div class="input-field">
+                                <label>Penghasilan Bersih Bulanan Pemohon (Rp):</label>
+                                <input type="number" id="sim-gaji" placeholder="Contoh: 12000000" step="500000">
+                                <small>Kapasitas arus kas pemohon per bulan</small>
+                            </div>
+                            <div class="input-field">
+                                <label>Plafon Pinjaman yang Dimohonkan (Rp):</label>
+                                <input type="number" id="sim-plafon" placeholder="Contoh: 15000000" step="500000">
+                                <small>Besaran pokok pembiayaan yang diajukan</small>
+                            </div>
+                            <div class="input-field">
+                                <label>Status Kepemilikan Tempat Tinggal:</label>
+                                <select id="sim-rumah">
+                                    <option value="" disabled selected>-- Pilih Status Tempat Tinggal --</option>
+                                    <option value="Milik Sendiri">Milik Sendiri (Stabilitas Aset Tertinggi)</option>
+                                    <option value="KPR">KPR (Kredit Rumah Berjalan)</option>
+                                    <option value="Sewa/Kost">Sewa / Kost (Tingkat Mobilitas Tinggi)</option>
+                                    <option value="Lainnya">Lainnya / Menumpang</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label>Tujuan Alokasi Pembiayaan:</label>
+                                <select id="sim-tujuan">
+                                    <option value="" disabled selected>-- Pilih Tujuan Pembiayaan --</option>
+                                    <option value="Modal UMKM">Modal Kerja UMKM (Sektor Produktif)</option>
+                                    <option value="Pendidikan">Biaya Pendidikan Formal</option>
+                                    <option value="Kebutuhan Pribadi">Kebutuhan Konsumtif / Harian</option>
+                                    <option value="Renovasi Rumah">Renovasi Hunian</option>
+                                    <option value="Konsolidasi Hutang">Pelunasan Hutang Berjalan</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label>Riwayat Kolektibilitas SLIK OJK:</label>
+                                <select id="sim-slik">
+                                    <option value="" disabled selected>-- Pilih Catatan SLIK OJK --</option>
+                                    <option value="Tidak Pernah">Kolektibilitas 1 (Lancar / Tanpa Tunggakan)</option>
+                                    <option value="Pernah">Kolektibilitas 2-5 (Tercatat Riwayat Wanprestasi)</option>
+                                </select>
+                            </div>
+                            <button id="btn-evaluasi" class="btn-primary" onclick="hitungSkorSimulasi()">
+                                <span>Kalkulasi Skor &amp; Terbitkan Sertifikat</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="checker-card result-side">
+                        <div class="card-header">
+                            <div>
+                                <h3>Sertifikat Penilaian Kelaikan Pembiayaan</h3>
+                                <p>Hasil evaluasi otomatis berbasis estimasi model regresi logistik multivariat</p>
+                            </div>
+                        </div>
+
+                        <div class="certificate-box">
+                            <div class="cert-stamp">VERIFIED BY FINSTAT RISK CORE</div>
+                            
+                            <div class="cert-score-wrap">
+                                <span class="cert-title">FICO CREDIT SCORE RESMI</span>
+                                <div class="cert-score-number" id="res-score">---</div>
+                                <span class="cert-range">Skala Perbankan Internasional: 300 - 850</span>
+                            </div>
+
+                            <div class="cert-status-badge badge-standby" id="res-badge">
+                                Siap Melakukan Evaluasi
+                            </div>
+
+                            <div class="cert-metrics-row">
+                                <div class="cert-metric">
+                                    <span>Peluang Macet:</span>
+                                    <strong id="res-prob-text">---</strong>
+                                </div>
+                                <div class="cert-metric">
+                                    <span>Rasio Beban (DSR):</span>
+                                    <strong id="res-dsr">---</strong>
+                                </div>
+                                <div class="cert-metric">
+                                    <span>Persetujuan Plafon:</span>
+                                    <strong id="res-rec">---</strong>
+                                </div>
+                                <div class="cert-metric">
+                                    <span>Suku Bunga Rekomendasi:</span>
+                                    <strong id="res-rate">---</strong>
+                                </div>
+                            </div>
+
+                            <div class="cert-instruction">
+                                <b>Status Panduan Analis:</b>
+                                <p id="res-instruction">Sistem dalam status siaga (*Standby*). Masukkan data pemohon pada formulir di sebelah kiri atau pilih salah satu skenario simulasi cepat di atas untuk memulai kalkulasi skor kredit.</p>
+                            </div>
+
+                            <div class="cert-footer">
+                                <span>Penanggung Jawab Validasi Model Risiko:</span>
+                                <b class="sign-text">M. Naufal Zamani (@rebatur_data)</b>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 TAB 3: PORTFOLIO DATABASE & AUDIT
+                 ==================================================== -->
+            <section id="tab-database" class="tab-pane">
+                
+                <div class="guide-banner success">
+                    <div class="guide-icon-badge success">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    </div>
+                    <div class="guide-text">
+                        <h4>Basis Data Portofolio &amp; Jejak Rekam Audit (Audit Trail)</h4>
+                        <p>Modul ini menyajikan data debitur riil FinTech OJK terverifikasi. Anda dapat menelusuri data, mencari ID debitur tertentu, menyaring berdasarkan keputusan sistem, serta memvalidasi keakuratan prediksi model terhadap realisasi status kelancaran pembayaran di lapangan.</p>
+                    </div>
+                </div>
+
+                <div class="table-container-card">
+                    <div class="table-toolbar">
+                        <div class="search-box">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="tableSearch" placeholder="Cari ID Debitur (Contoh: IDN-LN000003)..." onkeyup="filterTable()">
+                        </div>
+                        <div class="filter-pills">
+                            <button class="pill-btn active" onclick="filterByStatus('all')">Semua Sampel</button>
+                            <button class="pill-btn" onclick="filterByStatus('Auto-Reject')">Auto-Reject</button>
+                            <button class="pill-btn" onclick="filterByStatus('Manual Review')">Manual Review</button>
+                            <button class="pill-btn" onclick="filterByStatus('Auto-Approved')">Auto-Approved</button>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table id="auditTable">
+                            <thead>
+                                <tr>
+                                    <th>ID Debitur</th>
+                                    <th>Penghasilan / Bln</th>
+                                    <th>Plafon Pengajuan</th>
+                                    <th>Rasio Beban (DSR)</th>
+                                    <th>Credit Score</th>
+                                    <th>Rekomendasi Sistem</th>
+                                    <th>Status Riil Lapangan</th>
+                                    <th>Akurasi Prediksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Data disuntikkan via script.js -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination">
+                        <div class="pagination-info" id="pagination-info">
+                            Menampilkan <b>1 - 10</b> dari <b>31.834</b> Total Debitur Terverifikasi
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="btn-page" id="btn-prev" onclick="changePage(-1)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                <span>Sebelumnya</span>
+                            </button>
+                            <span class="page-current" id="page-num">Halaman 1</span>
+                            <button class="btn-page" id="btn-next" onclick="changePage(1)">
+                                <span>Selanjutnya</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 TAB 4: SYSTEM & MODEL ARCHITECTURE
+                 ==================================================== -->
+            <section id="tab-architecture" class="tab-pane">
+                
+                <div class="guide-banner purple">
+                    <div class="guide-icon-badge purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="guide-text">
+                        <h4>Tata Kelola Model Risiko &amp; Arsitektur Pemrosesan Data</h4>
+                        <p>Dokumentasi metodologis ini merinci alur rekayasa data dari Google Colab hingga implementasi model inferensi statistika di platform web ini, mengacu pada kerangka perbankan Basel II dan regulasi Otoritas Jasa Keuangan (OJK).</p>
+                    </div>
+                </div>
+
+                <div class="architecture-layout">
+                    
+                    <div class="arch-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Alur Kerja Rekayasa Data (End-to-End Pipeline)</h3>
+                                <p>Siklus pengolahan data mentah menjadi keputusan bisnis real-time</p>
+                            </div>
+                            <span class="tag-pill">Data Pipeline</span>
+                        </div>
+                        
+                        <div class="pipeline-flow">
+                            <div class="flow-step">
+                                <div class="flow-num">1</div>
+                                <h4>Data Ingestion</h4>
+                                <p>Ekstraksi 31.834 data riil, konversi denominasi mata uang Rupiah, dan lokalisasi sebaran wilayah Indonesia.</p>
+                            </div>
+                            <div class="flow-arrow">➔</div>
+                            <div class="flow-step">
+                                <div class="flow-num">2</div>
+                                <h4>Seleksi Fitur (IV)</h4>
+                                <p>Penyaringan kovariat berbasis <i>Information Value</i>. Variabel prediktif kuat (DSR &amp; Suku Bunga) dipertahankan.</p>
+                            </div>
+                            <div class="flow-arrow">➔</div>
+                            <div class="flow-step">
+                                <div class="flow-num">3</div>
+                                <h4>Estimasi Model Logit</h4>
+                                <p>Penaksiran parameter dengan Maximum Likelihood. Uji multikolinearitas (VIF) dan uji separasi KS-Statistic.</p>
+                            </div>
+                            <div class="flow-arrow">➔</div>
+                            <div class="flow-step">
+                                <div class="flow-num">4</div>
+                                <h4>Scorecard Scaling</h4>
+                                <p>Translasi matematis log-odds probabilitas ke skala FICO 300 - 850 menggunakan formula <i>Points to Double Odds</i> (PDO = 20).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="arch-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Model Interpretability &amp; Validasi Metrik Bisnis</h3>
+                                <p>Rasionalisasi statistik model probabilitas terhadap nilai ekonomis portofolio</p>
+                            </div>
+                            <span class="tag-pill">Statistik Terapan</span>
+                        </div>
+
+                        <div class="plain-english-grid">
+                            
+                            <div class="explain-item">
+                                <div class="explain-top">
+                                    <span class="metric-name">AUC-ROC = 0.8449</span>
+                                    <span class="status-pill green">Daya Diskriminasi Tinggi</span>
+                                </div>
+                                <b>Relevansi dan Arti Bisnis:</b>
+                                <p>Probabilitas bahwa model secara tepat memberikan skor risiko lebih buruk kepada debitur yang mengalami wanprestasi dibanding debitur yang lancar adalah sebesar <b>84.5%</b>. Nilai di atas 0.80 diakui sebagai standar model yang sangat andal.</p>
+                            </div>
+
+                            <div class="explain-item">
+                                <div class="explain-top">
+                                    <span class="metric-name">KS-Statistic = 53.16%</span>
+                                    <span class="status-pill purple">Standar Tier-1 Banking</span>
+                                </div>
+                                <b>Relevansi dan Arti Bisnis:</b>
+                                <p>Mengukur jarak vertikal maksimum antara kurva kumulatif debitur baik dan debitur gagal bayar. Nilai <b>53.16%</b> membuktikan model memiliki titik batas pisah (*cut-off*) yang sangat tegas untuk mencegah kredit bermasalah.</p>
+                            </div>
+
+                            <div class="explain-item">
+                                <div class="explain-top">
+                                    <span class="metric-name">Pseudo R² (McFadden) = 0.3047</span>
+                                    <span class="status-pill blue">Goodness-of-Fit Optimal</span>
+                                </div>
+                                <b>Relevansi dan Arti Bisnis:</b>
+                                <p>Pada regresi logistik non-linear, nilai McFadden antara 0.20 hingga 0.40 mengindikasikan kecocokan model yang sangat baik (*excellent fit*), membuktikan variabel finansial yang dipilih merefleksikan perilaku gagal bayar nyata.</p>
+                            </div>
+
+                            <div class="explain-item">
+                                <div class="explain-top">
+                                    <span class="metric-name">Max VIF = 2.47</span>
+                                    <span class="status-pill green">Bebas Multikolinearitas</span>
+                                </div>
+                                <b>Relevansi dan Arti Bisnis:</b>
+                                <p>Indeks Variance Inflation Factor di bawah 5.0 menunjukkan tidak ada variabel prediktor yang saling tumpang tindih secara linier. Seluruh koefisien penaksir bersifat stabil dan tidak menghasilkan estimasi yang bias.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Script Utama -->
+    <script src="script.js"></script>
+</body>
+</html>

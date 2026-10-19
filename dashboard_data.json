@@ -1,0 +1,193 @@
+{
+    "kpi": {
+        "total_debitur": 31834,
+        "aktual_twp90": 21.86,
+        "auc_roc": 0.8449,
+        "ks_statistic": 53.16,
+        "mcfadden_r2": 0.3047,
+        "approval_rate": 43.57
+    },
+    "score_distribution": {
+        "300-449 (Buruk)": 519,
+        "450-549 (Kurang)": 10243,
+        "550-649 (Cukup)": 19745,
+        "650-749 (Baik)": 1327,
+        "750-850 (Sangat Baik)": 0
+    },
+    "decision_distribution": {
+        "Auto-Reject (Risiko Tinggi)": 17963,
+        "Manual Review (Risiko Sedang)": 12544,
+        "Auto-Approved (Risiko Rendah)": 1327
+    },
+    "purpose_risk": [
+        {
+            "tujuan_pinjaman": "Kebutuhan Pribadi",
+            "total": 5409,
+            "twp90_rate": 19.86
+        },
+        {
+            "tujuan_pinjaman": "Kesehatan",
+            "total": 5946,
+            "twp90_rate": 26.72
+        },
+        {
+            "tujuan_pinjaman": "Konsolidasi Hutang",
+            "total": 5094,
+            "twp90_rate": 28.45
+        },
+        {
+            "tujuan_pinjaman": "Modal UMKM",
+            "total": 5579,
+            "twp90_rate": 15.0
+        },
+        {
+            "tujuan_pinjaman": "Pendidikan",
+            "total": 6264,
+            "twp90_rate": 17.24
+        },
+        {
+            "tujuan_pinjaman": "Renovasi Rumah",
+            "total": 3542,
+            "twp90_rate": 26.23
+        }
+    ],
+    "province_risk": [
+        {
+            "provinsi": "Banten",
+            "total": 2524,
+            "twp90_rate": 21.75
+        },
+        {
+            "provinsi": "DKI Jakarta",
+            "total": 9520,
+            "twp90_rate": 21.71
+        },
+        {
+            "provinsi": "Jawa Barat",
+            "total": 8040,
+            "twp90_rate": 22.13
+        },
+        {
+            "provinsi": "Jawa Tengah",
+            "total": 3137,
+            "twp90_rate": 21.2
+        },
+        {
+            "provinsi": "Jawa Timur",
+            "total": 4802,
+            "twp90_rate": 21.76
+        },
+        {
+            "provinsi": "Luar Jawa",
+            "total": 1929,
+            "twp90_rate": 23.28
+        },
+        {
+            "provinsi": "Sumatera Utara",
+            "total": 1882,
+            "twp90_rate": 21.47
+        }
+    ],
+    "sample_data": [
+        {
+            "id_debitur": "IDN-LN000002",
+            "usia": 21,
+            "pendapatan_bulanan_idr": 12000000.0,
+            "plafon_pinjaman_idr": 15000000,
+            "rasio_cicilan_pendapatan": 0.1,
+            "credit_score": 635,
+            "rekomendasi_sistem": "Manual Review (Risiko Sedang)",
+            "target_twp90": 0
+        },
+        {
+            "id_debitur": "IDN-LN000003",
+            "usia": 25,
+            "pendapatan_bulanan_idr": 12000000.0,
+            "plafon_pinjaman_idr": 82500000,
+            "rasio_cicilan_pendapatan": 0.57,
+            "credit_score": 396,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000004",
+            "usia": 23,
+            "pendapatan_bulanan_idr": 81875000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.53,
+            "credit_score": 449,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000005",
+            "usia": 24,
+            "pendapatan_bulanan_idr": 68000000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.55,
+            "credit_score": 447,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000006",
+            "usia": 21,
+            "pendapatan_bulanan_idr": 12375000.0,
+            "plafon_pinjaman_idr": 37500000,
+            "rasio_cicilan_pendapatan": 0.25,
+            "credit_score": 621,
+            "rekomendasi_sistem": "Manual Review (Risiko Sedang)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000007",
+            "usia": 26,
+            "pendapatan_bulanan_idr": 96375000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.45,
+            "credit_score": 523,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000008",
+            "usia": 24,
+            "pendapatan_bulanan_idr": 98695000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.44,
+            "credit_score": 518,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000009",
+            "usia": 24,
+            "pendapatan_bulanan_idr": 103750000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.42,
+            "credit_score": 557,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000011",
+            "usia": 22,
+            "pendapatan_bulanan_idr": 106250000.0,
+            "plafon_pinjaman_idr": 525000000,
+            "rasio_cicilan_pendapatan": 0.41,
+            "credit_score": 558,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        },
+        {
+            "id_debitur": "IDN-LN000012",
+            "usia": 21,
+            "pendapatan_bulanan_idr": 12500000.0,
+            "plafon_pinjaman_idr": 67500000,
+            "rasio_cicilan_pendapatan": 0.45,
+            "credit_score": 509,
+            "rekomendasi_sistem": "Auto-Reject (Risiko Tinggi)",
+            "target_twp90": 1
+        }
+    ]
+}
